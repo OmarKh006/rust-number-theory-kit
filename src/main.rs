@@ -39,6 +39,18 @@ fn main() {
                 let n: u32 = n.trim().parse().expect("Please enter a number!");
                 println!("The step count for {n} is {}", collatz_step_count(n));
             }
+            4 => {
+                println!("Enter a number : ");
+
+                let mut n = String::new();
+
+                io::stdin()
+                    .read_line(&mut n)
+                    .expect("Failed to read the line");
+
+                let n: u64 = n.trim().parse().expect("Please enter a number!");
+                println!("F({}) is {}", n, fibonacci(n));
+            }
             _ => println!("Enter a valid operation number"),
         }
     }
@@ -173,6 +185,9 @@ fn lcm(n1: i32, n2: i32) -> i32 {
 }
 
 fn collatz_step_count(mut number: u32) -> u32 {
+    if number == 0 {
+        return 0;
+    }
     let mut step: u32 = 0;
     loop {
         if number == 1 {
@@ -187,4 +202,19 @@ fn collatz_step_count(mut number: u32) -> u32 {
         }
     }
     return step;
+}
+
+fn fibonacci(n: u64) -> u64 {
+    let mut last: u64 = 0;
+    let mut current: u64 = 1;
+    let mut temp: u64;
+    if n == 0 {
+        return 0;
+    }
+    for _x in 2..=n {
+        temp = current;
+        current = current + last;
+        last = temp;
+    }
+    return current;
 }
