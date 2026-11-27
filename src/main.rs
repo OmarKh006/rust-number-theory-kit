@@ -27,6 +27,18 @@ fn main() {
             0 => break,
             1 => check_prime(),
             2 => gcd_lcm(),
+            3 => {
+                println!("Enter a number : ");
+
+                let mut n = String::new();
+
+                io::stdin()
+                    .read_line(&mut n)
+                    .expect("Failed to read the line");
+
+                let n: u32 = n.trim().parse().expect("Please enter a number!");
+                println!("The step count for {n} is {}", collatz_step_count(n));
+            }
             _ => println!("Enter a valid operation number"),
         }
     }
@@ -156,6 +168,23 @@ fn lcm(n1: i32, n2: i32) -> i32 {
     if n1 == 0 || n2 == 0 {
         return 0;
     }
-    let lcm: i32 = ((n1*n2).abs())/gcd(n1, n2);
+    let lcm: i32 = ((n1 * n2).abs()) / gcd(n1, n2);
     return lcm;
+}
+
+fn collatz_step_count(mut number: u32) -> u32 {
+    let mut step: u32 = 0;
+    loop {
+        if number == 1 {
+            break;
+        }
+        if number % 2 == 0 {
+            number /= 2;
+            step = step + 1;
+        } else {
+            number = (number * 3) + 1;
+            step = step + 1;
+        }
+    }
+    return step;
 }
