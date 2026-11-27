@@ -94,7 +94,7 @@ fn gcd_lcm() {
                     .read_line(&mut n1)
                     .expect("Failed to read the line");
 
-                let n1: u32 = n1.trim().parse().expect("Please enter a number!");
+                let n1: i32 = n1.trim().parse().expect("Please enter a number!");
 
                 println!("Enter second number : ");
 
@@ -104,19 +104,41 @@ fn gcd_lcm() {
                     .read_line(&mut n2)
                     .expect("Failed to read the line");
 
-                let n2: u32 = n2.trim().parse().expect("Please enter a number!");
+                let n2: i32 = n2.trim().parse().expect("Please enter a number!");
 
-                gcd(n1, n2);
+                println!("the gcd({}, {}) is {}", n1, n2, gcd(n1, n2));
+            }
+            2 => {
+                println!("Enter first number : ");
+
+                let mut n1 = String::new();
+
+                io::stdin()
+                    .read_line(&mut n1)
+                    .expect("Failed to read the line");
+
+                let n1: i32 = n1.trim().parse().expect("Please enter a number!");
+
+                println!("Enter second number : ");
+
+                let mut n2 = String::new();
+
+                io::stdin()
+                    .read_line(&mut n2)
+                    .expect("Failed to read the line");
+
+                let n2: i32 = n2.trim().parse().expect("Please enter a number!");
+
+                println!("the lcm({}, {}) is {}", n1, n2, lcm(n1, n2));
             }
             _ => println!("Please Enter a valid operation number"),
         }
     }
 }
 
-fn gcd(n1: u32, n2: u32) {
+fn gcd(n1: i32, n2: i32) -> i32 {
     if n1 == 0 && n2 == 0 {
-        println!("The gcd({}, {}) is 0", n1, n2);
-        return;
+        return 0;
     }
     let greatest = cmp::max(n1, n2);
     let mut gcd = 0;
@@ -127,5 +149,13 @@ fn gcd(n1: u32, n2: u32) {
         }
     }
 
-    println!("The gcd({}, {}) is {gcd}", n1, n2);
+    return gcd;
+}
+
+fn lcm(n1: i32, n2: i32) -> i32 {
+    if n1 == 0 || n2 == 0 {
+        return 0;
+    }
+    let lcm: i32 = ((n1*n2).abs())/gcd(n1, n2);
+    return lcm;
 }
