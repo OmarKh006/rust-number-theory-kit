@@ -1,5 +1,6 @@
 use std::cmp;
 use std::io;
+use std::collections::HashMap;
 
 fn main() {
     println!("Welcome to the number theory.");
@@ -254,9 +255,21 @@ fn number_conversion() {
                 let n: i32 = n.trim().parse().expect("Please enter a number!");
 
                 int_to_bin(n);
-            },
-            2 => {},
-            _ => println!("Please Enter a valid operation.")
+            }
+            2 => {
+                println!("Enter a number : ");
+
+                let mut n = String::new();
+
+                io::stdin()
+                    .read_line(&mut n)
+                    .expect("Failed to read the line");
+
+                let n: i32 = n.trim().parse().expect("Please enter a number!");
+
+                int_to_hex(n);
+            }
+            _ => println!("Please Enter a valid operation."),
         }
     }
 }
@@ -266,7 +279,7 @@ fn int_to_bin(mut n: i32) {
         println!("the number {} in binary is 0", n);
         return;
     }
-    let mut bin:String = String::new();
+    let mut bin: String = String::new();
     while n > 0 {
         if n % 2 == 0 {
             bin.push('0');
@@ -275,5 +288,38 @@ fn int_to_bin(mut n: i32) {
         }
         n = n / 2;
     }
-    println!("the number {} in binary is {}", n, bin.chars().rev().collect::<String>());
+    println!(
+        "the number {} in binary is {}",
+        n,
+        bin.chars().rev().collect::<String>()
+    );
+}
+
+fn int_to_hex(mut n: i32) {
+    let base = 16;
+    let mut hex_characters = HashMap::new();
+    let mut hex_string: String = String::new();
+
+
+    hex_characters.insert("10", 'A');
+    hex_characters.insert("11", 'B');
+    hex_characters.insert("12", 'C');
+    hex_characters.insert("13", 'D');
+    hex_characters.insert("14", 'E');
+    hex_characters.insert("15", 'F');
+
+
+    let float_result = n as f32 / base as f32;
+    let decimal_part = float_result.fract();
+    let int_part = float_result.floor();
+    let remainder = base as f32 * decimal_part;
+
+    let s = remainder.to_string();
+
+    let slice: &str = &s;
+
+    hex_string.push(hex_characters.get(slice).copied().unwrap_or(' '));
+
+
+    println!("hellooo : {} & {} & {}", int_part, remainder, hex_string);
 }
