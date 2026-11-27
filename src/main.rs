@@ -51,6 +51,7 @@ fn main() {
                 let n: u64 = n.trim().parse().expect("Please enter a number!");
                 println!("F({}) is {}", n, fibonacci(n));
             }
+            5 => number_conversion(),
             _ => println!("Enter a valid operation number"),
         }
     }
@@ -217,4 +218,62 @@ fn fibonacci(n: u64) -> u64 {
         last = temp;
     }
     return current;
+}
+
+fn number_conversion() {
+    println!("Welcome the number conversion program :)");
+
+    loop {
+        println!("0 - Go Back");
+        println!("1 - int to bin");
+        println!("2 - int to hex");
+        println!("Choose : ");
+
+        let mut n = String::new();
+
+        io::stdin()
+            .read_line(&mut n)
+            .expect("Failed to read the line");
+
+        let n: u32 = match n.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        match n {
+            0 => break,
+            1 => {
+                println!("Enter a number : ");
+
+                let mut n = String::new();
+
+                io::stdin()
+                    .read_line(&mut n)
+                    .expect("Failed to read the line");
+
+                let n: i32 = n.trim().parse().expect("Please enter a number!");
+
+                int_to_bin(n);
+            },
+            2 => {},
+            _ => println!("Please Enter a valid operation.")
+        }
+    }
+}
+
+fn int_to_bin(mut n: i32) {
+    if n == 0 {
+        println!("the number {} in binary is 0", n);
+        return;
+    }
+    let mut bin:String = String::new();
+    while n > 0 {
+        if n % 2 == 0 {
+            bin.push('0');
+        } else {
+            bin.push('1');
+        }
+        n = n / 2;
+    }
+    println!("the number {} in binary is {}", n, bin.chars().rev().collect::<String>());
 }
