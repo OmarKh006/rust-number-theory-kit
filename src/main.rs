@@ -5,6 +5,25 @@ use std::io;
 fn main() {
     println!("Welcome to the number theory.");
 
+    let mut hex_characters = HashMap::new();
+
+    hex_characters.insert("0", '0');
+    hex_characters.insert("1", '1');
+    hex_characters.insert("2", '2');
+    hex_characters.insert("3", '3');
+    hex_characters.insert("4", '4');
+    hex_characters.insert("5", '5');
+    hex_characters.insert("6", '6');
+    hex_characters.insert("7", '7');
+    hex_characters.insert("8", '8');
+    hex_characters.insert("9", '9');
+    hex_characters.insert("10", 'A');
+    hex_characters.insert("11", 'B');
+    hex_characters.insert("12", 'C');
+    hex_characters.insert("13", 'D');
+    hex_characters.insert("14", 'E');
+    hex_characters.insert("15", 'F');
+
     loop {
         println!("1 - Check Prime.");
         println!("2 - GCD/LCM.");
@@ -52,7 +71,7 @@ fn main() {
                 let n: u64 = n.trim().parse().expect("Please enter a number!");
                 println!("F({}) is {}", n, fibonacci(n));
             }
-            5 => number_conversion(),
+            5 => number_conversion(hex_characters.clone()),
             _ => println!("Enter a valid operation number"),
         }
     }
@@ -221,7 +240,7 @@ fn fibonacci(n: u64) -> u64 {
     return current;
 }
 
-fn number_conversion() {
+fn number_conversion(hex_characters: HashMap<&str, char>) {
     println!("Welcome the number conversion program :)");
 
     loop {
@@ -267,7 +286,7 @@ fn number_conversion() {
 
                 let n: i32 = n.trim().parse().expect("Please enter a number!");
 
-                int_to_hex(n);
+                int_to_hex(n, hex_characters.clone());
             }
             _ => println!("Please Enter a valid operation."),
         }
@@ -295,39 +314,19 @@ fn int_to_bin(mut n: i32) {
     );
 }
 
-fn int_to_hex(n: i32) {
+fn int_to_hex(n: i32, hex_characters: HashMap<&str, char>) {
     let base = 16;
-    let mut hex_characters = HashMap::new();
     let mut hex_string: String = String::new();
-
-    hex_characters.insert("0", '0');
-    hex_characters.insert("1", '1');
-    hex_characters.insert("2", '2');
-    hex_characters.insert("3", '3');
-    hex_characters.insert("4", '4');
-    hex_characters.insert("5", '5');
-    hex_characters.insert("6", '6');
-    hex_characters.insert("7", '7');
-    hex_characters.insert("8", '8');
-    hex_characters.insert("9", '9');
-    hex_characters.insert("10", 'A');
-    hex_characters.insert("11", 'B');
-    hex_characters.insert("12", 'C');
-    hex_characters.insert("13", 'D');
-    hex_characters.insert("14", 'E');
-    hex_characters.insert("15", 'F');
 
     let float_result = n as f32 / base as f32;
     let mut decimal_part = float_result.fract();
     let mut int_part = float_result.floor();
+
     let mut remainder = base as f32 * decimal_part;
-
     let mut s = remainder.to_string();
-
     let mut slice: &str = &s;
 
     hex_string.push(hex_characters.get(slice).copied().unwrap_or(' '));
-    println!("debug this shit : {} & {} & {}", int_part, remainder, hex_string);
 
     loop {
         int_part /= base as f32;
@@ -339,9 +338,9 @@ fn int_to_hex(n: i32) {
         s = remainder.to_string();
         slice = &s;
         hex_string.push(hex_characters.get(slice).copied().unwrap_or(' '));
-        println!("debug this shit : {} & {} & {}", int_part, remainder, hex_string);
+
         if int_part == 0.00 {
-            println!("hellooo : {} & {} & {}", int_part, remainder, hex_string);
+            println!("this number {} in hex is {}", n, hex_string.chars().rev().collect::<String>());
             break;
         }
     }
